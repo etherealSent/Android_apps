@@ -1,14 +1,7 @@
 <resources>
+    <string name="header_text">Please enter your name and then we\'ll get started!</string>
+    <string name="welcome_text">Hello %s, we hope you enjoy using the app!</string>
+    <string name="full_name_label">Enter your full name:</string>
+    <string name="submit_button_text">SUBMIT</string>
     <string name="app_name">Exercise 202</string>
-    <string name="header_text">Enter your name and email for
-a discount code at Your Favorite Restaurant!</string>
-    <string name="first_name_label">First Name:</string>
-    <string name="email_label">Email:</string>
-    <string name="last_name_label">Last Name:</string>
-    <string name="discount_code_button">GET DISCOUNT
-        </string>
-    <string name="discount_code_confirmation">Hey  %s!
-        Here is your discount code</string>
-    <string name="add_text_validation">Please fill in all
-        form fields</string>
 </resources>
