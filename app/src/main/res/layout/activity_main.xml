@@ -5,26 +5,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="28dp"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <EditText
-        android:id="@+id/full_name"
+    <TextView
+        android:id="@+id/header_text"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:hint="@string/full_name_label"
-        android:layout_marginBottom="24dp"
+        android:text="@string/header_text_main"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
     <Button
         android:id="@+id/submit_button"
-        android:textSize="24sp"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit_button_text"
-        app:layout_constraintTop_toBottomOf="@id/full_name"
+        app:layout_constraintTop_toBottomOf="@id/header_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+        android:id="@+id/rainbow_color"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_margin="12dp"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/submit_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="BLUE is your favorite color"
+        tools:background="@color/blue"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

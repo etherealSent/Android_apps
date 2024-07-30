@@ -1,32 +1,43 @@
 package com.example.exercise202
 
-
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-const val FULL_NAME_KEY = "FULL_NAME_KEY"
+import android.content.Intent
+import android.graphics.Color
+import android.widget.Button
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+const val RAINBOW_COLOR_NAME = "RAINBOW_COLOR_NAME" //Key to return rainbow color name in intent
+const val RAINBOW_COLOR = "RAINBOW_COLOR" // Key to return rainbow color in intent
+const val DEFAULT_COLOR = "#FFFFFF" // White
+
 
 class MainActivity : AppCompatActivity() {
 
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            val data = activityResult.data
+            val backgroundColor = data?.getIntExtra(RAINBOW_COLOR, Color.parseColor(DEFAULT_COLOR))
+                ?: Color.parseColor(DEFAULT_COLOR)
+            val colorName = data?.getStringExtra(RAINBOW_COLOR_NAME) ?: ""
+            val colorMessage = getString(R.string.color_chosen_message, colorName)
+            val rainbowColor = findViewById<TextView>(R.id.rainbow_color)
+            rainbowColor.setBackgroundColor(ContextCompat.getColor(this, backgroundColor))
+            rainbowColor.text = colorMessage
+            rainbowColor.isVisible = true
+        }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<Button>(R.id.submit_button).
-        setOnClickListener {
-            val fullName = findViewById<EditText>(R.id.full_name).text.toString()
-            if (fullName.isNotEmpty()) {
-                // Set the name of the Activity to launch
-                val welcomeIntent = Intent(this, WelcomeActivity::class.java)
-                welcomeIntent.putExtra(FULL_NAME_KEY, fullName)
-                startActivity(welcomeIntent)
-            } else {
-                Toast.makeText(this, getString(R.string.full_name_label), Toast.LENGTH_LONG).show()
+        findViewById<Button>(R.id.submit_button)
+            .setOnClickListener {
+                startForResult.launch(Intent(this, RainbowColorPickerActivity::class.java)
+                )
             }
-        }
+
     }
 
 }
