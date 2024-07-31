@@ -5,5 +5,13 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="StarSignTextView" parent="Base.TextAppearance.AppCompat.Large" >
+        <item name="android:padding">18dp</item>
+    </style>
+
+    <style name="StarSignTextViewHeader" parent="Base.TextAppearance.AppCompat.Display1" >
+        <item name="android:padding">18dp</item>
+    </style>
+
     <style name="Theme.Exercise202" parent="Base.Theme.Exercise202" />
 </resources>

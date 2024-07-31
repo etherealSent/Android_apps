@@ -1,16 +1,21 @@
 <resources>
-    <string name="header_text_main">Please click the button below to choose your favorite color of the rainbow!</string>
-    <string name="header_text_picker">Rainbow Colors</string>
-    <string name="footer_text_picker">Click the button above which is your favorite color of the rainbow.</string>
-    <string name="color_chosen_message">%s is your favorite color!</string>
-    <string name="submit_button_text">CHOOSE COLOR</string>
-    <string name="red">RED</string>
-    <string name="orange">ORANGE</string>
-    <string name="yellow">YELLOW</string>
-    <string name="green">GREEN</string>
-    <string name="blue">BLUE</string>
-    <string name="indigo">INDIGO</string>
-    <string name="violet">VIOLET</string>
-    <string name="unexpected_color">Unexpected color</string>
-    <string name="app_name">Exercise 202</string>
+    <string name="star_signs">Star Signs</string>
+    <string name="symbol">Symbol: %s</string>
+    <string name="date_range">Date Range: %s</string>
+    <string name="aquarius">Aquarius</string>
+    <string name="pisces">Pisces</string>
+    <string name="aries">Aries</string>
+    <string name="taurus">Taurus</string>
+    <string name="gemini">Gemini</string>
+    <string name="cancer">Cancer</string>
+    <string name="leo">Leo</string>
+    <string name="virgo">Virgo</string>
+    <string name="libra">Libra</string>
+    <string name="scorpio">Scorpio</string>
+    <string name="sagittarius">Sagittarius</string>
+    <string name="capricorn">Capricorn</string>
+    <string name="unknown_star_sign">Unknown Star Sign</string>
+    <string name="app_name">exercises</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
