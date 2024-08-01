@@ -6,11 +6,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".AnswersFragment">
+
     <TextView
         android:id="@+id/answers_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/first_question"
+        tools:text="@string/first_question"
         android:textSize="24sp"
         android:textStyle="bold"
         android:paddingVertical="20dp"
@@ -105,5 +106,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/neptune"/>
+
+    <TextView
+        android:id="@+id/correct_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/neptune_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/first_answer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 
-const val STAR_SIGN_ID = "STAR_SIGN_ID"
+const val QUESTION_ID = "QUESTION_ID"
+const val RIGHT_ANSWER_ID = "RIGHT_ANSWER_ID"
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -40,16 +40,19 @@ class QuestionsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val starSigns = listOf<View>(
-            view.findViewById(R.id.first_question),
-            view.findViewById(R.id.second_question),
-            view.findViewById(R.id.third_question),
+        val questions = listOf<Pair<View, String>>(
+            Pair(view.findViewById(R.id.first_question), getString(R.string.jupiter)),
+            Pair(view.findViewById(R.id.second_question),getString(R.string.saturn)),
+            Pair(view.findViewById(R.id.third_question), getString(R.string.uranus))
         )
-        starSigns.forEach { starSign ->
-//            val fragmentBundle = Bundle()
-//            fragmentBundle.putInt(STAR_SIGN_ID, starSign.id)
-            starSign.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.answers_action)
+        questions.forEach { question ->
+            val fragmentBundle = Bundle()
+
+            fragmentBundle.putInt(QUESTION_ID, question.first.id)
+            fragmentBundle.putString(RIGHT_ANSWER_ID, question.second)
+
+            question.first.setOnClickListener(
+                Navigation.createNavigateOnClickListener(R.id.answers_action, fragmentBundle)
             )
         }
     }
