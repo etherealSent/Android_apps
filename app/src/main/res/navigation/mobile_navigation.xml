@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android=
     "http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,44 +18,43 @@
     <fragment
         android:id="@+id/nav_content"
         android:name="com.example.exercise202.ContentFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:label="@string/content_fragment"
+        tools:layout="@layout/fragment_content">
     </fragment>
 
     <fragment
-        android:id="@+id/nav_archive"
-        android:name="com.example.exercise202.ArchiveFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/nav_cart"
+        android:name="com.example.exercise202.CartFragment"
+        android:label="@string/cart_fragment"
+        tools:layout="@layout/fragment_cart">
     </fragment>
 
     <fragment
-        android:id="@+id/nav_bin"
-        android:name="com.example.exercise202.BinFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/nav_offers"
+        android:name="com.example.exercise202.OffersFragment"
+        android:label="@string/offers_fragment"
+        tools:layout="@layout/fragment_offers">
     </fragment>
 
     <fragment
-        android:id="@+id/nav_favorites"
-        android:name="com.example.exercise202.FavoritesFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_recent"
-        android:name="com.example.exercise202.RecentFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:id="@+id/nav_rewards"
+        android:name="com.example.exercise202.RewardsFragment"
+        android:label="@string/rewards_fragment"
+        tools:layout="@layout/fragment_rewards">
     </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.exercise202.SettingsFragment"
-        android:label="@string/home"
-        tools:layout="@layout/fragment_home">
+        android:label="@string/settings_fragment"
+        tools:layout="@layout/fragment_settings">
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_tickets"
+        android:name="com.example.exercise202.TicketsFragment"
+        android:label="@string/tickets_fragment"
+        tools:layout="@layout/fragment_rewards">
+    </fragment>
 
 </navigation>

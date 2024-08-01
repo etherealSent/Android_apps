@@ -1,21 +1,22 @@
 <resources>
-    <string name="nav_header_desc">Navigation header</string>
+    <!-- Bottom Navigation -->
     <string name="home">Home</string>
+    <string name="tickets">Tickets</string>
+    <string name="offers">Offers</string>
+    <string name="rewards">Rewards</string>
+    <!-- Action Bar -->
     <string name="settings">Settings</string>
+    <string name="cart">Shopping Cart</string>
     <string name="content">Content</string>
-    <string name="archive">Archive</string>
-    <string name="recent">Recent</string>
-    <string name="favorites">Favorites</string>
-    <string name="bin">Bin</string>
     <string name="home_fragment">Home Fragment</string>
-    <string name="settings_fragment">Settings Fragment</string>
+    <string name="tickets_fragment">Tickets Fragment</string>
+    <string name="offers_fragment">Offers Fragment</string>
+    <string name="rewards_fragment">Rewards Fragment</string>
+    <string name="settings_fragment"> Settings Fragment</string>
+    <string name="cart_fragment"> Shopping Cart Fragment</string>
     <string name="content_fragment">Content Fragment</string>
-    <string name="archive_fragment">Archive Fragment</string>
-    <string name="recent_fragment">Recent Fragment</string>
-    <string name="favorites_fragment">FavoritesFragment</string>
-    <string name="bin_fragment">Bin Fragment</string>
-    <string name="link_to_content_button">Link to Content Button</string>
-    <string name="app_name">Navigation Drawer</string>
+    <string name="link_to_content_button"> Link to Content Button</string>
+    <string name="app_name">Bottom Navigation</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
