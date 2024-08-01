@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -14,10 +13,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [QuestionsFragment.newInstance] factory method to
+ * Use the [BinFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class QuestionsFragment : Fragment() {
+class BinFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -35,26 +34,7 @@ class QuestionsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_questions, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val questions = listOf<Pair<View, String>>(
-            Pair(view.findViewById(R.id.first_question), getString(R.string.jupiter)),
-            Pair(view.findViewById(R.id.second_question),getString(R.string.saturn)),
-            Pair(view.findViewById(R.id.third_question), getString(R.string.uranus))
-        )
-        questions.forEach { question ->
-            val fragmentBundle = Bundle()
-
-            fragmentBundle.putInt(QUESTION_ID, question.first.id)
-            fragmentBundle.putString(RIGHT_ANSWER_ID, question.second)
-
-            question.first.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.answers_action, fragmentBundle)
-            )
-        }
+        return inflater.inflate(R.layout.fragment_bin, container, false)
     }
 
     companion object {
@@ -64,12 +44,12 @@ class QuestionsFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment QuestionsFragment.
+         * @return A new instance of fragment BinFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            QuestionsFragment().apply {
+            BinFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
