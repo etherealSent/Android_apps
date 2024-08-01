@@ -1,21 +1,19 @@
 <resources>
-    <string name="star_signs">Star Signs</string>
-    <string name="symbol">Symbol: %s</string>
-    <string name="date_range">Date Range: %s</string>
-    <string name="aquarius">Aquarius</string>
-    <string name="pisces">Pisces</string>
-    <string name="aries">Aries</string>
-    <string name="taurus">Taurus</string>
-    <string name="gemini">Gemini</string>
-    <string name="cancer">Cancer</string>
-    <string name="leo">Leo</string>
-    <string name="virgo">Virgo</string>
-    <string name="libra">Libra</string>
-    <string name="scorpio">Scorpio</string>
-    <string name="sagittarius">Sagittarius</string>
-    <string name="capricorn">Capricorn</string>
-    <string name="unknown_star_sign">Unknown Star Sign</string>
-    <string name="app_name">exercises</string>
+    <string name="first_question">What is the largest planet?</string>
+    <string name="second_question">Which planet has the most moons?</string>
+    <string name="third_question">Which planet spins on its side?</string>
+    <string name="first_answer">Jupiter is the largest planet and is 2.5 times the mass of all the other planets put together.</string>
+    <string name="second_answer">Saturn has the most moons and has 82 moons.</string>
+    <string name="third_answer">Uranus spins on its side with its axis at nearly a right angle to the Sun.</string>
+    <string name="mercury">MERCURY</string>
+    <string name="venus">VENUS</string>
+    <string name="earth">EARTH</string>
+    <string name="mars">MARS</string>
+    <string name="jupiter">JUPITER</string>
+    <string name="saturn">SATURN</string>
+    <string name="uranus">URANUS</string>
+    <string name="neptune">NEPTUNE</string>
+    <string name="app_name">Planet Quiz</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
