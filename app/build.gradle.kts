@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.glide)
     implementation(libs.retrofit.converter.moshi)
     implementation(libs.retrofit.converter.scalars)
     implementation(libs.retrofit)
