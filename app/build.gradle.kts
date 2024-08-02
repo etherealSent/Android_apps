@@ -36,7 +36,9 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.viewpager2)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.retrofit.converter.scalars)
+    implementation(libs.retrofit)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.fragment.ktx)

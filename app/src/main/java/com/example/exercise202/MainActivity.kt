@@ -1,24 +1,58 @@
 package com.example.exercise202
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import android.util.Log
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.example.exercise202.api.TheCatApiService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
+
+
 class MainActivity : AppCompatActivity() {
+
+    private val serverResponseView: TextView by lazy {
+        findViewById(R.id.main_server_response)
+    }
+
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.thecatapi.com/v1/")
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+    }
+
+    private val theCatApiService by lazy {
+        retrofit.create(TheCatApiService::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
-        val viewPager = findViewById<ViewPager2>(R.id.view_pager)
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
+    private fun getCatImageResponse() {
+        val call = theCatApiService.searchImages(1, "full")
+        call.enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e("MainActivity", "Failed to get search results", t)
+            }
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    serverResponseView.text = response.body()
+                } else {
+                    Log.e(
+                        "MainActivity",
+                        "Failed to get search results\n${response.errorBody()?.string().orEmpty()}"
+                    )
+                }
+            }
+        })
 
-        val adapter = MovieGenresAdapter(supportFragmentManager, lifecycle)
-
-        viewPager.adapter = adapter
-
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = resources.getString(TAB_GENRES_SCROLLABLE[position])
-        }.attach()
     }
 }
+
+
