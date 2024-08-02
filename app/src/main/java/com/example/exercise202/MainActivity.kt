@@ -2,6 +2,7 @@ package com.example.exercise202
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exercise202.api.TheCatApiService
@@ -15,8 +16,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class MainActivity : AppCompatActivity() {
 
-    private val serverResponseView: TextView by lazy {
-        findViewById(R.id.main_server_response)
+    private val agentBreedView: TextView by lazy {
+        findViewById(R.id.main_agent_breed_value)
+    }
+
+    private val profileImageView: ImageView by lazy {
+        findViewById(R.id.main_profile_image)
+    }
+
+    private val imageLoader: ImageLoader by lazy {
+        GlideImageLoader(this)
     }
 
     private val retrofit by lazy {
@@ -46,7 +55,15 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val imageResults = response.body()
                     val firstImageUrl = imageResults?.firstOrNull()?.imageUrl ?: "No URL"
-                    serverResponseView.text = "Image URL: $firstImageUrl"
+                    if (firstImageUrl.isNotBlank()) {
+                        imageLoader.loadImage(firstImageUrl, profileImageView)
+                    } else {
+                        Log.d("MainActivity", "Missing image URL")
+                    }
+                    agentBreedView.text = imageResults
+                        ?.firstOrNull()?.breeds?.firstOrNull()
+                        ?.name ?: "Unknown"
+
                 } else {
                     Log.e(
                         "MainActivity",
