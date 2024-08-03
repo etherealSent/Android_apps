@@ -6,7 +6,8 @@ import com.bumptech.glide.Glide
 
 class GlideImageLoader(private val context: Context) : ImageLoader {
     override fun loadImage(imageUrl: String, imageView: ImageView) {
-        Glide.with(context)
+        Glide
+            .with(context)
             .load(imageUrl)
             .centerCrop()
             .into(imageView)
