@@ -4,6 +4,6 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercise202.model.ListItemUiModel
 
-abstract class ListItemViewHolder(containerView: View) : RecyclerView.ViewHolder(containerView) {
+abstract class ListItemViewHolder(containerView: View): RecyclerView.ViewHolder(containerView) {
     abstract fun bindData(listItem: ListItemUiModel)
 }

@@ -1,118 +1,91 @@
 package com.example.exercise202
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.exercise202.model.CatBreed
-import com.example.exercise202.model.CatUiModel
-import com.example.exercise202.model.Gender
+import com.example.exercise202.model.Flavor
 import com.example.exercise202.model.ListItemUiModel
+import com.example.exercise202.model.RecipeUiModel
 
 class MainActivity : AppCompatActivity() {
-    private val recyclerView: RecyclerView
-            by lazy { findViewById(R.id.recycler_view) }
 
-    private val addItemButton: View
-    by lazy { findViewById(R.id.main_add_item_button) }
+    private val recyclerView: RecyclerView by lazy {
+        findViewById(R.id.recycler_view)
+    }
 
     private val listItemsAdapter by lazy {
-        ListItemsAdapter(
-            layoutInflater,
-            GlideImageLoader(this),
-            object : ListItemsAdapter.OnClickListener {
-                override fun onItemClick(catData: CatUiModel) = showSelectionDialog(catData)
+        ListItemAdapter(
+            layoutInflater = layoutInflater,
+            onClickListener = object : ListItemAdapter.OnClickListener {
+                override fun onItemClick(recipe: RecipeUiModel) = showSelectionDialog(recipe)
             }
         )
+    }
+
+    private val titleField: EditText by lazy {
+        findViewById(R.id.title_field)
+    }
+
+    private val descriptionField: EditText by lazy {
+        findViewById(R.id.description_field)
+    }
+
+    private val savoryButton: View by lazy {
+        findViewById(R.id.savory_button)
+    }
+
+    private val sweetButton: View by lazy {
+        findViewById(R.id.sweet_button)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         recyclerView.adapter = listItemsAdapter
         recyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        val itemTouchHelper = ItemTouchHelper(listItemsAdapter
-            .swipeToDeleteCallback)
+        val itemTouchHelper = ItemTouchHelper(listItemsAdapter.swipeToDeleteCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
-        addItemButton.setOnClickListener {
-            listItemsAdapter.addItem(
-                1,
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Female,
-                        CatBreed.BalineseJavanese,
-                        "Anonymous",
-                        "Unknown",
-                        "https://cdn2.thecatapi.com/images/zJkeHza2K.jpg"
+        savoryButton.setOnClickListener {
+            listItemsAdapter.addRecipe(
+                ListItemUiModel.Recipe(
+                    RecipeUiModel(
+                        title = titleField.text.toString(),
+                        description = descriptionField.text.toString(),
+                        flavor = Flavor.SAVORY
                     )
                 )
             )
         }
 
-        listItemsAdapter.setData(
-            listOf(
-                ListItemUiModel.Title("Sleeper Agents"),
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Male,
-                        CatBreed.ExoticShorthair,
-                        "Garvey",
-                        "Garvey is as a lazy, fat, and cynical orange cat.",
-                        "https://cdn2.thecatapi.com/images/FZpeiLi4n.jpg"
-                    )
-                ),
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Unknown,
-                        CatBreed.AmericanCurl,
-                        "Curious George",
-                        "Award winning investigator",
-                        "https://cdn2.thecatapi.com/images/vJB8rwfdX.jpg"
-                    )
-                ),
-                ListItemUiModel.Title("Active Agents"),
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Male,
-                        CatBreed.BalineseJavanese,
-                        "Fred",
-                        "Silent and deadly",
-                        "https://cdn2.thecatapi.com/images/DBmIBhhyv.jpg"
-                    )
-                ),
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Female,
-                        CatBreed.ExoticShorthair,
-                        "Wilma",
-                        "Cuddly assassin",
-                        "https://cdn2.thecatapi.com/images/KJF8fB_20.jpg"
-                    )
-                ),
-                ListItemUiModel.Cat(
-                    CatUiModel(
-                        Gender.Male,
-                        CatBreed.ExoticShorthair,
-                        "Tim",
-                        "Tim, AKA Jasper, is very energetic, determined yet somewhat... Slow.",
-                        "https://cdn2.thecatapi.com/images/y61B6bFCh.jpg"
+        sweetButton.setOnClickListener {
+            listItemsAdapter.addRecipe(
+                ListItemUiModel.Recipe(
+                    RecipeUiModel(
+                        title = titleField.text.toString(),
+                        description = descriptionField.text.toString(),
+                        flavor = Flavor.SWEET
                     )
                 )
             )
-        )
+        }
     }
-
-    private fun showSelectionDialog(catData: CatUiModel) {
+    private fun showSelectionDialog(recipeData: RecipeUiModel) {
         AlertDialog.Builder(this)
-            .setTitle("Agent Selected")
-            .setMessage("You have selected agent ${catData.name}")
+            .setTitle(recipeData.title)
+            .setMessage(recipeData.description)
             .setPositiveButton("OK") { _, _ -> }
             .show()
     }
+
 }
