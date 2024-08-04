@@ -1,22 +1,24 @@
-package com.example.exercise202
+package com.example.exercise202.viewholder
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
+import com.example.exercise202.ImageLoader
+import com.example.exercise202.R
 import com.example.exercise202.model.CatBreed
 import com.example.exercise202.model.CatUiModel
 import com.example.exercise202.model.Gender
+import com.example.exercise202.model.ListItemUiModel
 
-private val FEMALE_SYMBOL = "\u2640"
-private val MALE_SYMBOL = "\u2642"
-private const val UNKNOWN_SYMBOL = "?"
+val FEMALE_SYMBOL = "\u2640"
+val MALE_SYMBOL = "\u2642"
+const val UNKNOWN_SYMBOL = "?"
 
 class CatViewHolder(
     private val containerView: View,
     private val imageLoader: ImageLoader,
     private val onClickListener: OnClickListener
-) : RecyclerView.ViewHolder(containerView) {
+) : ListItemViewHolder(containerView) {
 
     private val catBiographyView: TextView by lazy {
         containerView.findViewById(R.id.item_cat_biography) }
@@ -30,7 +32,11 @@ class CatViewHolder(
         containerView.findViewById(R.id.item_cat_photo)
     }
 
-    fun bindData(cat: CatUiModel) {
+    override fun bindData(listItem: ListItemUiModel) {
+
+        require(listItem is ListItemUiModel.Cat)
+        { "Expected ListItemUiModel.Cat" }
+        val cat = listItem.cat
 
         containerView.setOnClickListener {
             onClickListener.onClick(cat)
