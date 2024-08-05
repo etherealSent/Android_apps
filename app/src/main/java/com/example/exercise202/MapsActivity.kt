@@ -4,21 +4,30 @@ import android.Manifest
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -29,6 +38,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private lateinit var mMap: GoogleMap
+
+    private var marker: Marker? = null
 
     private lateinit var requestPermissionLauncher:
             ActivityResultLauncher<String>
@@ -68,17 +79,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        mMap = googleMap.apply {
+            setOnMapClickListener { latLng ->
+                addOrMoveSelectedPositionMarker(latLng)
+            }
+        }
+
         when {
             hasLocationPermission() -> getLastLocation()
             shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION) -> {
                 showPermissionRationale {
                     requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-//                    requestPermissionLauncher.launch(ACCESS_COARSE_LOCATION)
                 }
             }
             else -> {
                 requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-//                requestPermissionLauncher.launch(ACCESS_COARSE_LOCATION)
             }
         }
     }
@@ -105,13 +120,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ACCESS_COARSE_LOCATION
             ) != PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationProviderClient.lastLocation
@@ -128,7 +136,47 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             CameraUpdateFactory.newLatLngZoom(location, 7f))
     }
 
-    private fun addMarkerAtLocation(location: LatLng, title: String) {
-        mMap.addMarker(MarkerOptions().title(title).position(location))
+    private fun addMarkerAtLocation(location: LatLng, title: String,
+                                    markerIcon: BitmapDescriptor? = null) =
+        mMap.addMarker(MarkerOptions().title(title).position(location).apply {
+            markerIcon?.let { icon(markerIcon) }
+        })
+
+    private fun getBitmapDescriptorFromVector(
+        @DrawableRes vectorDrawableResourceId: Int
+    ): BitmapDescriptor? {
+        val bitmap = ContextCompat.getDrawable(this,
+            vectorDrawableResourceId)?.let { vectorDrawable ->
+            vectorDrawable.setBounds(0, 0,
+                vectorDrawable.intrinsicWidth,
+                vectorDrawable.intrinsicHeight)
+
+            val drawableWithTint = DrawableCompat.wrap(vectorDrawable)
+            DrawableCompat.setTint(drawableWithTint, Color.RED)
+
+            val bitmap = Bitmap.createBitmap(
+                vectorDrawable.intrinsicWidth,
+                vectorDrawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+
+            val canvas = Canvas(bitmap)
+            drawableWithTint.draw(canvas)
+            bitmap
+        }
+        return bitmap?.let {
+            BitmapDescriptorFactory.fromBitmap(it)
+                .also { bitmap.recycle() }
+        }
     }
+
+    private fun addOrMoveSelectedPositionMarker(latLng: LatLng) {
+        if (marker == null) {
+            marker = addMarkerAtLocation(latLng,
+                "Deploy here", getBitmapDescriptorFromVector(
+                    R.drawable.target_icon)
+            )
+        } else { marker?.apply { position = latLng } }
+    }
+
 }
