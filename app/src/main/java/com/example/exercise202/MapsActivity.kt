@@ -3,6 +3,7 @@ package com.example.exercise202
 import android.Manifest
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.content.Context
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -10,6 +11,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
@@ -41,13 +43,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var marker: Marker? = null
 
+    private var carMarker: Marker? = null
+
     private lateinit var requestPermissionLauncher:
             ActivityResultLauncher<String>
 
+    private val parkedButton: View by lazy {
+        findViewById(R.id.parked_button)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_maps)
+
+        parkedButton.setOnClickListener {
+            if (hasLocationPermission()) {
+                markParkedCar()
+            }
+        }
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -56,62 +69,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                     isGranted ->
-                if (isGranted) { getLastLocation() }
+                if (isGranted) { getLastLocation(::updateMapLocationWithMarker) }
                 else {
                     showPermissionRationale {
                         requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-//                        requestPermissionLauncher.launch(ACCESS_COARSE_LOCATION)
-
                     }
                 }
             }
+
+
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-
-        mMap = googleMap.apply {
-            setOnMapClickListener { latLng ->
-                addOrMoveSelectedPositionMarker(latLng)
-            }
-        }
-
-        when {
-            hasLocationPermission() -> getLastLocation()
-            shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION) -> {
-                showPermissionRationale {
-                    requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-                }
-            }
-            else -> {
-                requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-            }
-        }
-    }
-
-    private fun showPermissionRationale(positiveAction: () -> Unit) {
-        AlertDialog.Builder(this)
-            .setTitle("Location permission")
-            .setMessage("This app will not work without knowing your current location")
-            .setPositiveButton(android.R.string.ok) { _, _ -> positiveAction() }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-            .create().show()
-    }
-
-    private fun hasLocationPermission() =
-        checkSelfPermission(this, ACCESS_FINE_LOCATION) ==
-                PERMISSION_GRANTED
-
-    private fun getLastLocation() {
+    private fun getLastLocation(onLocation: (location: Location) -> Unit) {
         if (checkSelfPermission(
                 this,
                 ACCESS_FINE_LOCATION
@@ -120,16 +89,31 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 ACCESS_COARSE_LOCATION
             ) != PERMISSION_GRANTED
         ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
             return
         }
         fusedLocationProviderClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 location?.let {
-                    val userLocation = LatLng(
-                        location.latitude, location.longitude)
-                    updateMapLocation(userLocation)
-                    addMarkerAtLocation(userLocation, "You")
-                } }    }
+                    onLocation(it)
+                }
+            }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (hasLocationPermission()) {
+            getLastLocation(::updateMapLocationWithMarker)
+        }
+    }
+
 
     private fun updateMapLocation(location: LatLng) {
         mMap.moveCamera(
@@ -152,7 +136,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 vectorDrawable.intrinsicHeight)
 
             val drawableWithTint = DrawableCompat.wrap(vectorDrawable)
-            DrawableCompat.setTint(drawableWithTint, Color.RED)
+            DrawableCompat.setTint(drawableWithTint, Color.BLUE)
 
             val bitmap = Bitmap.createBitmap(
                 vectorDrawable.intrinsicWidth,
@@ -170,13 +154,109 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun hasLocationPermission() =
+        checkSelfPermission(
+            this,
+            ACCESS_FINE_LOCATION
+        ) == PERMISSION_GRANTED && checkSelfPermission(
+            this,
+            ACCESS_COARSE_LOCATION
+        ) == PERMISSION_GRANTED
+
+
+    private fun showPermissionRationale(positiveAction: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("Location permission")
+            .setMessage("This app will not work without knowing your current location")
+            .setPositiveButton(android.R.string.ok) { _, _ -> positiveAction() }
+            .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create().show()
+    }
+
+    private fun markParkedCar() {
+        carMarker?.remove()
+        carMarker = marker?.position?.let {
+            addMarkerAtLocation(
+                it,
+                "Your Car",
+                getBitmapDescriptorFromVector(R.drawable.car)
+            )
+        }
+
+        carMarker?.position?.let { saveLocation(it) }
+
+//        getLastLocation { location ->
+//            val userLocation = updateMapLocationWithMarker(location)
+//            carMarker?.remove()
+//            carMarker = addMarkerAtLocation(
+//                userLocation,
+//                "Your Car",
+//                getBitmapDescriptorFromVector(R.drawable.car)
+//            )
+//            saveLocation(userLocation)
+//        }
+    }
+
+    private fun updateMapLocationWithMarker(location: Location): LatLng {
+        val userLocation = LatLng(location.latitude, location.longitude)
+        updateMapLocation(userLocation)
+        marker?.remove()
+        marker = addMarkerAtLocation(userLocation, "You")
+        return userLocation
+    }
     private fun addOrMoveSelectedPositionMarker(latLng: LatLng) {
         if (marker == null) {
             marker = addMarkerAtLocation(latLng,
-                "Deploy here", getBitmapDescriptorFromVector(
-                    R.drawable.target_icon)
-            )
+                "You")
         } else { marker?.apply { position = latLng } }
     }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        mMap = googleMap.apply {
+            setOnMapClickListener { latLng ->
+                addOrMoveSelectedPositionMarker(latLng)
+            }
+        }
+
+        restoreLocation()?.let { userLocation ->
+            carMarker = addMarkerAtLocation(
+                userLocation,
+                "Your Car",
+                getBitmapDescriptorFromVector(R.drawable.car)
+            )
+            marker = addMarkerAtLocation(userLocation, "You")
+        }
+
+        when {
+            hasLocationPermission() -> getLastLocation(::updateMapLocationWithMarker)
+            shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION) -> {
+                showPermissionRationale {
+                    requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
+                }
+            }
+            else -> {
+                requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
+            }
+        }
+    }
+
+    private fun saveLocation(latLng: LatLng) =
+        getPreferences(MODE_PRIVATE)?.edit()?.apply {
+            putString("latitude", latLng.latitude.toString())
+            putString("longitude", latLng.longitude.toString())
+            apply()
+        }
+
+    private fun restoreLocation() =
+        getPreferences(Context.MODE_PRIVATE)?.let { sharedPreferences ->
+            val latitude =
+                sharedPreferences.getString("latitude", null)?.toDoubleOrNull() ?: return null
+            val longitude =
+                sharedPreferences.getString("longitude", null)?.toDoubleOrNull() ?: return null
+            LatLng(latitude, longitude)
+        }
+
 
 }
