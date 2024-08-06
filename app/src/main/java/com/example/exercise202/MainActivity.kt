@@ -1,10 +1,19 @@
 package com.example.exercise202
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.work.Constraints
@@ -12,6 +21,7 @@ import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import com.example.exercise202.RouteTrackingService.Companion.EXTRA_SECRET_CAT_AGENT_ID
 import com.example.exercise202.worker.CatFurGroomingWorker
 import com.example.exercise202.worker.CatLitterBoxSittingWorker
 import com.example.exercise202.worker.CatStretchingWorker
@@ -21,11 +31,17 @@ class MainActivity : AppCompatActivity() {
 
     private val workManager = WorkManager.getInstance(this)
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        ensurePermissionGrantedAndDispatchCat()
+    }
+
+    private fun dispatchCat() {
         val networkConstraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -38,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .setInputData(
                 getCatAgentIdInputData(
                     CatStretchingWorker
-                    .INPUT_DATA_CAT_AGENT_ID, catAgentId)
+                        .INPUT_DATA_CAT_AGENT_ID, catAgentId)
             ).build()
 
         val catFurGroomingRequest = OneTimeWorkRequest.
@@ -87,8 +103,64 @@ class MainActivity : AppCompatActivity() {
         workManager.getWorkInfoByIdLiveData(catSuitUpRequest.id).observe(this) { info ->
             if (info.state.isFinished) {
                 showResult("Agent done suiting up. Ready to go!")
+                launchTrackingService()
             }
         }
+    }
+
+    private fun launchTrackingService() {
+        RouteTrackingService.trackingCompletion.observe(this) { agentId ->
+            showResult("Agent $agentId arrived!")
+        }
+        val serviceIntent = Intent(this, RouteTrackingService::class.java).apply {
+            putExtra(EXTRA_SECRET_CAT_AGENT_ID, "007")
+        }
+        ContextCompat.startForegroundService(this, serviceIntent)
+    }
+
+    private fun ensurePermissionGrantedAndDispatchCat() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            dispatchCat()
+        }
+
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                dispatchCat()
+            } else {
+                showPermissionRationale {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+        }
+
+        when {
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED -> {
+                dispatchCat()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+                showPermissionRationale {
+                    requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            else -> requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+
+    private fun showPermissionRationale(positiveAction: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("Notifications permission")
+            .setMessage("To show progress, we need the notifications permission")
+            .setPositiveButton(
+                android.R.string.ok
+            ) { _, _ -> positiveAction() }
+            .setNegativeButton(
+                android.R.string.cancel
+            ) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
 
     private fun getCatAgentIdInputData(
