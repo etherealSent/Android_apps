@@ -10,13 +10,13 @@ import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
-import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 
-class RouteTrackingService : Service() {
+
+class WaterTrackingService : Service() {
+
+    private var fluidBalanceMilliliters = 0f
 
     private lateinit var notificationBuilder:
             NotificationCompat.Builder
@@ -26,42 +26,24 @@ class RouteTrackingService : Service() {
     override fun onCreate() {
         super.onCreate()
         notificationBuilder = startForegroundService()
-        val handlerThread = HandlerThread("RouteTracking").apply { start() }
+        val handlerThread = HandlerThread("WaterTracking").apply { start() }
         serviceHandler = Handler(handlerThread.looper)
-    }
-
-    private fun trackToDestination(notificationBuilder: NotificationCompat.Builder) {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-
-        for (i in 10 downTo 0) {
-            Thread.sleep(1000L)
-            notificationBuilder.setContentText(
-                "$i seconds to destination").setSilent(true)
-
-            notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
-        }
-    }
-
-    private fun notifyCompletion(agentId: String) {
-        Handler(Looper.getMainLooper()).post {
-            mutableTrackingCompletion.value = agentId
-        }
+        updateFluidBalance()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
         val returnValue = super.onStartCommand(intent, flags, startId)
 
-        val agentId = intent?.getStringExtra(EXTRA_SECRET_CAT_AGENT_ID)
-            ?: throw IllegalStateException("Agent ID must be provided")
-
-        serviceHandler.post {
-                trackToDestination(notificationBuilder)
-                notifyCompletion(agentId)
-                stopForeground(true)
-                stopSelf() }
+        val intakeAmountMilliliters = intent?.getFloatExtra(EXTRA_INTAKE_AMOUNT_MILLILITERS, 0f)
+        intakeAmountMilliliters?.let {
+            addToFluidBalance(it)
+        }
 
         return returnValue
+    }
+
+    override fun onDestroy() {
+        serviceHandler.removeCallbacksAndMessages(null)
     }
 
     override fun onBind(p0: Intent?): IBinder? = null
@@ -76,10 +58,27 @@ class RouteTrackingService : Service() {
         )
     }
 
+    private fun addToFluidBalance(amountMillilitres: Float) {
+        synchronized(this) {
+            fluidBalanceMilliliters += amountMillilitres
+        }
+    }
+
+    private fun updateFluidBalance() {
+        serviceHandler.postDelayed({
+            updateFluidBalance()
+            addToFluidBalance(-0.144f)
+            notificationBuilder.setContentText(
+                "Your fluid balance: %.2f".format(fluidBalanceMilliliters)
+            )
+            startForeground(NOTIFICATION_ID, notificationBuilder.build())
+        }, 5000L)
+    }
+
     private fun createNotificationChannel(): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val newChannelId = "CatDispatch"
-            val channelName = "Cat Dispatch Tracking"
+            val newChannelId = "FluidBalanceTracking"
+            val channelName = "Fluid Balance Tracking"
             val channel = NotificationChannel(
                 newChannelId, channelName,
                 NotificationManager.IMPORTANCE_DEFAULT
@@ -93,12 +92,11 @@ class RouteTrackingService : Service() {
 
     private fun getNotificationBuilder(pendingIntent: PendingIntent, channelId: String) =
         NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Agent approaching destination")
-            .setContentText("Agent dispatched")
+            .setContentTitle("Tracking your fluid balance")
+            .setContentText("Tracking")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentIntent(pendingIntent)
-            .setTicker("Agent dispatched, tracking movement")
-            .setOngoing(true)
+            .setTicker("Fluid balance tracking started")
 
     private fun startForegroundService(): NotificationCompat.Builder {
         val pendingIntent = getPendingIntent()
@@ -112,10 +110,7 @@ class RouteTrackingService : Service() {
     }
 
     companion object {
-        const val NOTIFICATION_ID = 0xCA7
-        const val EXTRA_SECRET_CAT_AGENT_ID = "scaId"
-        private val mutableTrackingCompletion = MutableLiveData<String>()
-        val trackingCompletion: LiveData<String> = mutableTrackingCompletion
+        const val NOTIFICATION_ID = 0x3A7A
+        const val EXTRA_INTAKE_AMOUNT_MILLILITERS = "intake"
     }
-
 }
