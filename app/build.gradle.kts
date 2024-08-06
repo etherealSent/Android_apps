@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.work.runtime)
     implementation(libs.play.services.location)
     implementation(libs.glide)
     implementation(libs.retrofit.converter.moshi)
