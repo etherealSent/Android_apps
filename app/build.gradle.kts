@@ -15,7 +15,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.exercise202.MyApplicationTestRunner"
+
     }
 
     buildTypes {
@@ -45,6 +46,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.espresso.idling.resource)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
 

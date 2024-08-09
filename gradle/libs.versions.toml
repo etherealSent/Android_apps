@@ -21,6 +21,7 @@ mockito-core = "4.5.1"
 mockito-kotlin = "4.1.0"
 robolectric = "4.9"
 rules = "1.5.0"
+espressoIdlingResource = "3.6.1"
 
 [libraries]
 androidx-fragment-ktx = { group="androidx.fragment", name="fragment-ktx", version.ref="fragment-ktx"}
@@ -51,6 +52,7 @@ mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", versio
 
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric"}
 androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules"}
+androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoIdlingResource" }
 
 
 [plugins]
