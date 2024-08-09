@@ -37,9 +37,22 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
+
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.espresso.core)
+
+    androidTestImplementation(libs.androidx.rules)
+
     implementation(libs.work.runtime)
     implementation(libs.play.services.location)
     implementation(libs.glide)
