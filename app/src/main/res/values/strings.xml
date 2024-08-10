@@ -1,8 +1,5 @@
 <resources>
-    <string name="app_name">Empty Activity</string>
-    <string name="enter_number">Enter a number</string>
-    <string name="click_me">Click Me</string>
-    <string name="item_x">Item %d</string>
-    <string name="you_clicked_y">You clicked %s</string>
-    <string name="calculate">Calculate</string>
+    <string name="press_me">Press Me</string>
+    <string name="total">Total %d</string>
+    <string name="app_name">SplitActivity</string>
 </resources>

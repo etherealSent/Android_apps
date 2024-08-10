@@ -48,6 +48,7 @@ android {
 
 
 dependencies {
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     implementation(libs.androidx.espresso.idling.resource)
     implementation(libs.androidx.espresso.contrib)
