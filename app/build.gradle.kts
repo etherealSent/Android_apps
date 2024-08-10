@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    kotlin("plugin.parcelize")
 }
 
 android {
@@ -16,8 +17,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "com.example.exercise202.MyApplicationTestRunner"
-
     }
+
 
     buildTypes {
         release {
@@ -44,9 +45,14 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation(libs.androidx.espresso.idling.resource)
+    implementation(libs.androidx.espresso.contrib)
+    implementation(libs.androidx.junit.ktx)
+    implementation(libs.androidx.espresso.intents)
     testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
 

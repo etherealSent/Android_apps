@@ -2,13 +2,13 @@ package com.example.exercise202
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
-class TestSynchronizer(
-    private val synchronizer: Synchronizer,
+class TestItemGenerator(
+    private val itemGenerator: ItemGenerator,
     private val countingIdlingResource: CountingIdlingResource
-) : Synchronizer {
-    override fun executeAfterDelay(callback: (Int) -> Unit) {
+) : ItemGenerator {
+    override fun generateItemsAsync(itemCount: Int, callback: (List<Item>) -> Unit) {
         countingIdlingResource.increment()
-        synchronizer.executeAfterDelay {
+        itemGenerator.generateItemsAsync(itemCount) {
             callback(it)
             countingIdlingResource.decrement()
         }

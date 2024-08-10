@@ -2,17 +2,19 @@ package com.example.exercise202
 
 import android.app.Application
 import java.util.Timer
-import kotlin.random.Random
 
 open class MyApplication : Application() {
-    lateinit var synchronizer: Synchronizer
+
+    val timer = Timer()
+    lateinit var stringProvider: StringProvider
+    lateinit var itemGenerator: ItemGenerator
 
     override fun onCreate() {
         super.onCreate()
-        synchronizer = createSynchronizer()
+        stringProvider = StringProvider(this)
+        itemGenerator = createItemGenerator()
     }
 
-    open fun createRandomizer() : Randomizer = RandomizerImpl(Random)
-
-    open fun createSynchronizer() : Synchronizer = SynchronizerImpl(createRandomizer(), Timer())
+    protected open fun createItemGenerator(): ItemGenerator =
+        ItemGeneratorImpl(timer, stringProvider, 1000)
 }

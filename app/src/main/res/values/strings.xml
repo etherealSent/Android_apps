@@ -2,10 +2,7 @@
     <string name="app_name">Empty Activity</string>
     <string name="enter_number">Enter a number</string>
     <string name="click_me">Click Me</string>
-    <string name="item_format">Item %s</string>
-    <string name="the_sum_of_numbers_from_1_to_is">The sum of numbers from 1 to %1$d is: %2$s</string>
-    <string name="error_invalid_number">Error: Invalid number</string>
-    <string name="press_me">Press Me</string>
-    <string name="opened_after_x_seconds">Opened after %d seconds</string>
+    <string name="item_x">Item %d</string>
+    <string name="you_clicked_y">You clicked %s</string>
     <string name="calculate">Calculate</string>
 </resources>
