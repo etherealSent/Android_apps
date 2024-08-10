@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
     kotlin("plugin.parcelize")
+    id("kotlin-kapt")
 }
 
 android {
@@ -16,6 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
 
@@ -46,9 +48,13 @@ android {
 
 
 
-dependencies {
-    testImplementation(libs.androidx.core.testing)
 
+
+dependencies {
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+
+    testImplementation(libs.androidx.core.testing)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.espresso.idling.resource)
