@@ -18,12 +18,15 @@ class SplitFragmentTwo : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView> (R.id.fragment_split_two_text_view).text =
-            getString(R.string.total, 0)
 
         val totalsViewModel = ViewModelProvider(requireActivity())
             .get(TotalsViewModel::class.java)
-        updateText(totalsViewModel.total)
+
+        totalsViewModel.total.observe(
+            viewLifecycleOwner
+        ) {
+            updateText(it)
+        }
     }
 
     private fun updateText(total: Int) {

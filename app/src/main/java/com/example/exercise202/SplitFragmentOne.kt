@@ -25,24 +25,22 @@ class SplitFragmentOne : Fragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.fragment_split_one_text_view)
-            .text = getString(R.string.total, 0)
 
-        prepareViewModel()
-    }
-
-    private fun prepareViewModel() {
         val totalsViewModel = ViewModelProvider(requireActivity())
             .get(TotalsViewModel::class.java)
 
-        updateText(totalsViewModel.total)
+        totalsViewModel.total.observe(
+            viewLifecycleOwner
+        ) {
+            updateText(it)
+        }
 
-        view?.findViewById<Button>(R.id.fragment_split_one_button)
+        view.findViewById<Button>(R.id.fragment_split_one_button)
             ?.setOnClickListener {
-                updateText(totalsViewModel.increaseTotal())
+                totalsViewModel.increaseTotal()
             }
-
     }
+
     private fun updateText(total: Int) {
         view?.findViewById<TextView>(R.id.fragment_split_one_text_view)?.text =
             getString(R.string.total, total)

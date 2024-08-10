@@ -16,7 +16,6 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.example.exercise202.MyApplicationTestRunner"
     }
 
 
@@ -48,8 +47,10 @@ android {
 
 
 dependencies {
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    testImplementation(libs.androidx.core.testing)
 
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.espresso.idling.resource)
     implementation(libs.androidx.espresso.contrib)
     implementation(libs.androidx.junit.ktx)
@@ -61,15 +62,15 @@ dependencies {
     testImplementation(libs.androidx.espresso.core)
 
     androidTestImplementation(libs.androidx.rules)
-
-    implementation(libs.work.runtime)
-    implementation(libs.play.services.location)
-    implementation(libs.glide)
-    implementation(libs.retrofit.converter.moshi)
-    implementation(libs.retrofit.converter.scalars)
-    implementation(libs.retrofit)
-    implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
+//
+//    implementation(libs.work.runtime)
+//    implementation(libs.play.services.location)
+//    implementation(libs.glide)
+//    implementation(libs.retrofit.converter.moshi)
+//    implementation(libs.retrofit.converter.scalars)
+//    implementation(libs.retrofit)
+//    implementation(libs.androidx.navigation.fragment)
+//    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
