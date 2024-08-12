@@ -1,46 +1,80 @@
 package com.example.exercise202
 
+import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
 import org.apache.commons.io.IOUtils
 import java.io.File
-import java.io.InputStream
 import java.util.concurrent.Executor
-
 
 class ProviderFileManager(
     private val context: Context,
-    private val fileToUriMapper: FileToUriMapper,
-    private val executor: Executor
+    private val fileHelper: FileHelper,
+    private val contentResolver: ContentResolver,
+    private val executor: Executor,
+    private val mediaContentHelper: MediaContentHelper
 ) {
 
-    private fun getDocsFolder(): File {
-        val folder = File(context.getExternalFilesDir(null), "docs")
-        if (!folder.exists()) {
-            folder.mkdirs()
-        }
-        return folder
+    fun generatePhotoUri(time: Long): FileInfo {
+        val name = "img_$time.jpg"
+        val file = File(
+            context.getExternalFilesDir(fileHelper.getPicturesFolder()),
+            name
+        )
+        return FileInfo(
+            fileHelper.getUriFromFile(file),
+            file,
+            name,
+            fileHelper.getPicturesFolder(),
+            "image/jpeg"
+        )
     }
 
-    fun writeStream(name: String, inputStream: InputStream) {
-        executor.execute {
-            val fileToSave = File(getDocsFolder(), name)
-            val outputStream = context.contentResolver.openOutputStream(
-                fileToUriMapper.getUriFromFile(
-                    context,
-                    fileToSave
-                ), "rw"
+    fun generateVideoUri(time: Long): FileInfo {
+        val name = "video_$time.mp4"
+        val file = File(
+            context.getExternalFilesDir(fileHelper.getVideosFolder()),
+            name
+        )
+        return FileInfo(
+            fileHelper.getUriFromFile(file),
+            file,
+            name,
+            fileHelper.getVideosFolder(),
+            "video/mp4"
+        )
+    }
+
+    fun insertImageToStore(fileInfo: FileInfo?) {
+        fileInfo?.let {
+            insertToStore(
+                fileInfo,
+                mediaContentHelper.getImageContentUri(),
+                mediaContentHelper.generateImageContentValues(it)
             )
-            IOUtils.copy(inputStream, outputStream)
         }
     }
 
-    fun writeStreamFromUri(name: String, inputStream: InputStream, uri:Uri){
+    fun insertVideoToStore(fileInfo: FileInfo?) {
+        fileInfo?.let {
+            insertToStore(
+                fileInfo,
+                mediaContentHelper.getVideoContentUri(),
+                mediaContentHelper.generateVideoContentValues(it)
+            )
+        }
+    }
+
+    private fun insertToStore(fileInfo: FileInfo, contentUri: Uri, contentValues: ContentValues) {
         executor.execute {
-            val outputStream = context.contentResolver.openOutputStream(uri, "rw")
-            IOUtils.copy(inputStream, outputStream)
+            val insertedUri = contentResolver.insert(contentUri, contentValues)
+            insertedUri?.let {
+                val inputStream = contentResolver.openInputStream(fileInfo.uri)
+                val outputStream = contentResolver.openOutputStream(insertedUri)
+                IOUtils.copy(inputStream, outputStream)
+            }
         }
     }
-
-
 }
