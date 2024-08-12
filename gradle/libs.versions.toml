@@ -29,6 +29,7 @@ lifecycle-viewmodel = "2.5.1"
 lifecycle-livedata = "2.5.1"
 core-testing = "2.1.0"
 room = "2.2.5"
+datastore = "1.0.0"
 
 [libraries]
 androidx-fragment-ktx = { group="androidx.fragment", name="fragment-ktx", version.ref="fragment-ktx"}
@@ -72,6 +73,7 @@ androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", v
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
 
+androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
