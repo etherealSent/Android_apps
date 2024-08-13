@@ -1,28 +1,25 @@
 package com.example.exercise202
 
+
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.lifecycle.Observer
+import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.ScopeActivity
 
-@AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : ScopeActivity() {
 
-    private val mainViewModel: MainViewModel by viewModels()
-
+    private val mainViewModel: MainViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainViewModel.numberLiveData.observe(
-            this
-        ) {
+        mainViewModel.numberLiveData.observe(this, Observer {
             findViewById<TextView>(R.id.activity_main_text_view).text = it.toString()
         }
-        findViewById<TextView>(R.id.activity_main_button).setOnClickListener {
+        )
+        findViewById<View>(R.id.activity_main_button).setOnClickListener {
             mainViewModel.generateNextNumber()
         }
     }

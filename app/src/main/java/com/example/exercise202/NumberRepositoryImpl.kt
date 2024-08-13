@@ -1,6 +1,7 @@
 package com.example.exercise202
 
-import kotlin.random.Random
+import java.util.Random
+
 
 class NumberRepositoryImpl(private val random: Random) : NumberRepository {
     override fun generateNextNumber(): Int {

@@ -34,6 +34,7 @@ commons-io = "2.6"
 dagger = "2.44.2"
 googleDevtoolsKsp = "1.8.0-1.0.8"
 hilt = "2.44.2"
+koin = "3.2.2"
 
 [libraries]
 androidx-fragment-ktx = { group="androidx.fragment", name="fragment-ktx", version.ref="fragment-ktx"}
@@ -69,7 +70,7 @@ androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso
 androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "junitKtx" }
 androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 
-androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel"}
+androidx-lifecycle-viewmodel-ktx = { group  = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-viewmodel"}
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle-livedata"}
 
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core-testing"}
@@ -86,6 +87,9 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
