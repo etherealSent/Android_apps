@@ -1,7 +1,7 @@
 <resources>
     <string name="press_me">Press Me</string>
     <string name="total">Total %d</string>
-    <string name="app_name">SplitActivity</string>
+    <string name="app_name">DogActivity</string>
     <string name="note_number">Note number: %d</string>
     <string name="note_item">Note: %s</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -10,4 +10,7 @@
     <string name="add_note">add note</string>
     <string name="file_provider">FileProvider</string>
     <string name="saf">SAF</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="settings">Settings</string>
 </resources>
