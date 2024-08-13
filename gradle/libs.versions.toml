@@ -1,6 +1,6 @@
 [versions]
 agp = "8.5.1"
-kotlin = "2.0.0"
+kotlin = "1.8.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -31,6 +31,9 @@ core-testing = "2.1.0"
 room = "2.2.5"
 datastore = "1.0.0"
 commons-io = "2.6"
+dagger = "2.44.2"
+googleDevtoolsKsp = "1.8.0-1.0.8"
+hilt = "2.44.2"
 
 [libraries]
 androidx-fragment-ktx = { group="androidx.fragment", name="fragment-ktx", version.ref="fragment-ktx"}
@@ -76,10 +79,17 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
 
-commons-io = { group = "commons-io", name = "commons-io", version.ref="commons-io" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref= "commons-io" }
+
+dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
-
+google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "googleDevtoolsKsp"}

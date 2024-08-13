@@ -4,9 +4,10 @@ import android.app.Application
 
 class RandomApplication : Application() {
 
-    val applicationContainer = ApplicationContainer()
+    lateinit var applicationComponent: ApplicationComponent
 
     override fun onCreate() {
         super.onCreate()
+        applicationComponent = DaggerApplicationComponent.create()
     }
 }

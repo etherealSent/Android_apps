@@ -2,9 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+//    alias(libs.plugins.google.dagger.hilt.android)
     kotlin("plugin.parcelize")
     id("kotlin-kapt")
 }
+
+
 
 android {
     namespace = "com.example.exercise202"
@@ -31,12 +34,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
+    
+
     buildFeatures {
         viewBinding = true
     }
@@ -46,17 +51,19 @@ android {
     }
 }
 
-
-
-
-
 dependencies {
+
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 
     implementation(libs.commons.io)
 
     implementation(libs.androidx.datastore.preferences)
 
-    kapt(libs.androidx.room.compiler)
+//    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
 
     testImplementation(libs.androidx.core.testing)
