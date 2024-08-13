@@ -1,13 +1,7 @@
 package com.example.exercise202
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class RandomApplication : Application() {
-
-    lateinit var applicationComponent: ApplicationComponent
-
-    override fun onCreate() {
-        super.onCreate()
-        applicationComponent = DaggerApplicationComponent.create()
-    }
-}
+@HiltAndroidApp
+class RandomApplication : Application()

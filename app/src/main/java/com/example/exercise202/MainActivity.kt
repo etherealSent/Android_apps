@@ -2,28 +2,28 @@ package com.example.exercise202
 
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: ViewModelProvider.Factory
+    private val mainViewModel: MainViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as RandomApplication).applicationComponent.createMainSubcomponent()
-            .inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
-        viewModel.numberLiveData.observe(
+        mainViewModel.numberLiveData.observe(
             this
         ) {
             findViewById<TextView>(R.id.activity_main_text_view).text = it.toString()
         }
         findViewById<TextView>(R.id.activity_main_button).setOnClickListener {
-            viewModel.generateNextNumber()
+            mainViewModel.generateNextNumber()
         }
     }
 }

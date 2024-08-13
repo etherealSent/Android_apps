@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
-//    alias(libs.plugins.google.dagger.hilt.android)
+    alias(libs.plugins.google.dagger.hilt.android)
     kotlin("plugin.parcelize")
     id("kotlin-kapt")
 }
@@ -53,8 +53,8 @@ android {
 
 dependencies {
 
-//    implementation(libs.hilt.android)
-//    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
