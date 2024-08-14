@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding ="10dp"
+    android:background="@color/red">
+    <TextView
+        android:id="@+id/userId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="222"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Post ahuevshiy"/>
+
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="a a a a a a a aa  a a"/>
+    <TextView
+        android:id="@+id/postId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="sfaofpoa3o3"/>
+
+</LinearLayout>

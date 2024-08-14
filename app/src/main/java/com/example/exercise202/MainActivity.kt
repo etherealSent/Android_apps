@@ -2,25 +2,30 @@ package com.example.exercise202
 
 
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import androidx.lifecycle.Observer
-import org.koin.android.ext.android.inject
-import org.koin.androidx.scope.ScopeActivity
+import android.view.LayoutInflater
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ScopeActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel: MainViewModel by inject()
+    val mainViewModel: MainViewModel by viewModels()
+    private lateinit var mainAdapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainViewModel.numberLiveData.observe(this, Observer {
-            findViewById<TextView>(R.id.activity_main_text_view).text = it.toString()
-        }
-        )
-        findViewById<View>(R.id.activity_main_button).setOnClickListener {
-            mainViewModel.generateNextNumber()
+
+        mainAdapter = MainAdapter(LayoutInflater.from(this))
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.adapter = mainAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        mainViewModel.getPosts().observe(this) {
+            mainAdapter.updatePosts(it)
         }
     }
 }

@@ -53,6 +53,8 @@ androidx-navigation-fragment = { group = "androidx.navigation", name = "navigati
 retrofit = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
 retrofit-converter-scalars = {group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit"}
 retrofit-converter-moshi = {group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit"}
+retrofit-converter-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
+
 
 glide = {group = "com.github.bumptech.glide", name = "glide", version.ref = "glide"}
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
@@ -87,6 +89,10 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt"}
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt"}
+
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }

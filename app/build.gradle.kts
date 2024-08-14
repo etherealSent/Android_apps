@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
-//    alias(libs.plugins.google.dagger.hilt.android)
+    alias(libs.plugins.google.dagger.hilt.android)
     kotlin("plugin.parcelize")
     id("kotlin-kapt")
 }
@@ -20,7 +20,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.exercise202.MyTestRunner"
     }
 
 
@@ -53,14 +53,15 @@ android {
 
 dependencies {
 
-    implementation(libs.koin.core)
-    implementation(libs.koin.android)
+//    implementation(libs.koin.core)
+//    implementation(libs.koin.android)
+    implementation(libs.retrofit.converter.gson)
 
-//    implementation(libs.hilt.android)
-//    kapt(libs.hilt.compiler)
-//
-//    implementation(libs.dagger)
-//    kapt(libs.dagger.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
 
     implementation(libs.commons.io)
 
@@ -83,6 +84,9 @@ dependencies {
     testImplementation(libs.androidx.espresso.core)
 
     androidTestImplementation(libs.androidx.rules)
+
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler)
 //
 //    implementation(libs.work.runtime)
 //    implementation(libs.play.services.location)
