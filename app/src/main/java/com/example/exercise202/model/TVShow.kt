@@ -1,16 +1,18 @@
 package com.example.exercise202.model
 
+import androidx.room.Entity
 import com.squareup.moshi.Json
 
+@Entity(tableName = "tvShows", primaryKeys = [("id")])
 data class TVShow(
     val adult: Boolean = false,
     @field:Json(name = "backdrop_path")
     val backdropPath: String = "",
-    @field:Json(name = "genre_ids")
-    val genreIds: List<Int> = listOf(),
+//    @field:Json(name = "genre_ids")
+//    val genreIds: List<Int> = listOf(),
     val id: Int = 0,
-    @field:Json(name = "origin_country")
-    val originCountry: List<String> = listOf(),
+//    @field:Json(name = "origin_country")
+//    val originCountry: List<String> = listOf(),
     @field:Json(name = "original_language")
     val originalLanguage: String = "",
     @field:Json(name = "original_name")

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkerParameters
+import com.example.exercise202.databinding.ActivityMainBinding
 import com.example.exercise202.model.TVShow
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -51,12 +54,6 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
                 launch {
-                    tvShowViewModel.tvShows.collect {
-                        tvShows -> tvShowAdapter.setTVShows(tvShows)
-                    }
-                }
-
-                launch {
                     tvShowViewModel.error.collect { error ->
                         if (error.isNotEmpty()) Snackbar
                             .make(recyclerView, error, Snackbar.LENGTH_LONG).show()
@@ -64,6 +61,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.viewModel = tvShowViewModel
+        binding.lifecycleOwner = this
     }
 
     private fun openTVShowDetails(tvShow: TVShow) {

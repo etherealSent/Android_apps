@@ -40,10 +40,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    
+
 
     buildFeatures {
-        viewBinding = true
+        dataBinding = true
     }
 
     testOptions {
@@ -67,7 +67,7 @@ dependencies {
 
     implementation(libs.androidx.datastore.preferences)
 
-//    ksp(libs.androidx.room.compiler)
+    kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
 
     testImplementation(libs.androidx.core.testing)
@@ -88,7 +88,7 @@ dependencies {
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.android.compiler)
 //
-//    implementation(libs.work.runtime)
+    implementation(libs.work.runtime)
 //    implementation(libs.play.services.location)
     implementation(libs.glide)
     implementation(libs.retrofit.converter.moshi)
