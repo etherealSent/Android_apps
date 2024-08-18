@@ -1,23 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.exercise202.TVShowViewModel" />
-    </data>
-    <LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView
-            app:list="@{viewModel.tvShows}"
-            android:id="@+id/recyclerView"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_length"
+        android:textSize="20sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/length_text_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="@dimen/layout_margin"
+        android:layout_marginBottom="@dimen/layout_margin"
+        android:alpha="1"
+        android:hint="@string/length_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/length_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:id="@+id/checkbox_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/layout_margin"
+        app:layout_constraintTop_toBottomOf="@id/length_text_layout"
+        android:orientation="vertical">
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/uppercase_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/uppercase"
+            app:layout_constraintTop_toBottomOf="@id/length_text_layout"/>
 
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/numbers_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/numbers"
+            app:layout_constraintTop_toBottomOf="@id/uppercase_checkbox"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/special_characters_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/special_characters"
+            app:layout_constraintTop_toBottomOf="@id/numbers_checkbox"/>
     </LinearLayout>
-</layout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/generate_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_margin"
+        android:text="@string/generate"
+        app:layout_constraintTop_toBottomOf="@id/checkbox_layout"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

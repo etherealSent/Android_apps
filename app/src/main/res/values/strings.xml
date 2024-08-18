@@ -2,4 +2,11 @@
     <string name="app_name">TV Guide</string>
     <string name="randomize">Randomize</string>
     <string name="tv_show_overview">Overview %s</string>
+    <string name="length_number">length number</string>
+    <string name="uppercase">uppercase</string>
+    <string name="numbers">numbers</string>
+    <string name="enter_length">Enter length</string>
+    <string name="special_characters">special characters</string>
+    <string name="generate">generate</string>
+    <string name="copy">Copy</string>
 </resources>
